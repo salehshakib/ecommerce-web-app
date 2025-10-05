@@ -1,0 +1,34 @@
+{
+  "name": "perfume-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "ts-node-dev --respawn --transpile-only --esm src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "format:check": "prettier --check \"src/**/*.ts\"",
+    "lint": "tsc --noEmit"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "mongoose": "^8.19.0"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.3",
+    "@types/mongoose": "^5.11.96",
+    "@types/node": "^24.6.2",
+    "prettier": "^3.6.2",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.9.3",
+    "zod": "^4.1.11"
+  }
+}
