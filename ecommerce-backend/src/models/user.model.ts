@@ -22,11 +22,7 @@ export interface IUser extends Document {
   getPublicProfile(): UserPublicProfile;
 }
 
-export interface IUserModel extends Model<IUser> {
-  findByEmail(email: string): Promise<IUser | null>;
-  findByPhone(phone: string): Promise<IUser | null>;
-  findByEmailOrPhone(identifier: string): Promise<IUser | null>;
-}
+export interface IUserModel extends Model<IUser> {}
 
 const UserSchema = new Schema<IUser, IUserModel>(
   {
@@ -107,24 +103,6 @@ UserSchema.methods.getPublicProfile = function () {
     createdAt: this.createdAt,
     updatedAt: this.updatedAt,
   };
-};
-
-// Static methods
-UserSchema.statics.findByEmail = function (email: string): Promise<IUser | null> {
-  return this.findOne({ email: email.toLowerCase().trim() });
-};
-
-UserSchema.statics.findByPhone = function (phone: string): Promise<IUser | null> {
-  return this.findOne({ phone: phone.trim() });
-};
-
-UserSchema.statics.findByEmailOrPhone = function (identifier: string): Promise<IUser | null> {
-  const trimmed = identifier.trim();
-  // Simple check: if contains @, it's email, otherwise phone
-  if (trimmed.includes('@')) {
-    return this.findByEmail(trimmed);
-  }
-  return this.findByPhone(trimmed);
 };
 
 // Pre-validate hook

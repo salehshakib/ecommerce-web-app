@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken';
 
+import { User } from '@/models/user.model.js';
 import { UserRepository } from '@/repositories/user.repository.js';
 
 import { BadRequestError, ConflictError, UnauthorizedError } from '@/utils/api-error.js';
@@ -31,7 +32,7 @@ export class AuthService {
     this.validatePassword(dto.password);
 
     // Create user
-    const user = await this.userRepository.create({
+    const user = new User({
       firstName: dto.firstName,
       lastName: dto.lastName,
       email: dto.email,
