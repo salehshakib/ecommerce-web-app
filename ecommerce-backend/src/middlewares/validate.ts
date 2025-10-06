@@ -1,6 +1,9 @@
-import { type Request, type Response, type NextFunction } from 'express';
-import { type ZodSchema, ZodError } from 'zod';
+import { type NextFunction, type Request, type Response } from 'express';
+import { ZodError } from 'zod';
+
 import { ValidationError } from '@/utils/api-error.js';
+
+import type { ZodSchema } from 'zod';
 
 export const validate = (schema: ZodSchema) => {
   return (req: Request, res: Response, next: NextFunction) => {

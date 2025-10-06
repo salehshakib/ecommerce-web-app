@@ -1,6 +1,8 @@
-import mongoose, { Schema, type Document, type Model } from 'mongoose';
 import argon2 from 'argon2';
-import type { UserRole, UserStatus, UserPublicProfile } from '@/types/user.type.js';
+import mongoose, { Schema } from 'mongoose';
+
+import type { UserPublicProfile, UserRole, UserStatus } from '@/types/user.type.js';
+import type { Document, Model } from 'mongoose';
 
 export interface IUser extends Document {
   firstName: string;

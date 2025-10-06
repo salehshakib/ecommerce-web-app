@@ -6,5 +6,32 @@
   "tabWidth": 2,
   "useTabs": false,
   "arrowParens": "always",
-  "endOfLine": "lf"
+  "endOfLine": "lf",
+  "plugins": ["@ianvs/prettier-plugin-sort-imports"],
+  "importOrder": [
+    "^(express|mongoose|cors|dotenv|argon2|jsonwebtoken|zod)$",
+    "",
+    "<THIRD_PARTY_MODULES>",
+    "",
+    "^@/controllers(/.*)?$",
+    "^@/services(/.*)?$",
+    "^@/repositories(/.*)?$",
+    "",
+    "^@/validators(/.*)?$",
+    "",
+    "^@/middlewares(/.*)?$",
+    "",
+    "^@/utils(/.*)?$",
+    "",
+    "^@/types(/.*)?$",
+    "<TYPES>",
+    "<TYPES>^[./]",
+    "",
+    "^@/models(/.*)?$",
+    "^@/config(/.*)?$",
+    "",
+    "^[./]"
+  ],
+  "importOrderParserPlugins": ["typescript"],
+  "importOrderTypeScriptVersion": "5.0.0"
 }

@@ -1,6 +1,9 @@
 import { type Request, type Response } from 'express';
+
 import { AuthService } from '@/services/auth.service.js';
+
 import { asyncHandler } from '@/utils/async-handler.js';
+
 import type { ApiResponse } from '@/types/api-response.js';
 
 export class AuthController {

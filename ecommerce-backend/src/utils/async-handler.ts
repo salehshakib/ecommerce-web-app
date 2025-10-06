@@ -1,4 +1,4 @@
-import { type Request, type Response, type NextFunction } from 'express';
+import { type NextFunction, type Request, type Response } from 'express';
 
 type AsyncFunction = (req: Request, res: Response, next: NextFunction) => Promise<any>;
 

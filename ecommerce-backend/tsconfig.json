@@ -6,7 +6,7 @@
     "outDir": "./dist",
 
     // Path aliases (baseUrl deprecated in TS 7.0, suppressing warning for TS 5.x)
-    "ignoreDeprecations": "6.0",
+    "ignoreDeprecations": "5.0",
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]

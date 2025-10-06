@@ -1,9 +1,14 @@
-import express, { type Application } from 'express';
 import cors from 'cors';
-import { corsConfig } from '@/config/index.js';
+import express from 'express';
+
+import authRoutes from '@/routes/auth.routes.js';
+
 import { errorHandler } from '@/middlewares/error-handler.js';
 import { notFound } from '@/middlewares/not-found.js';
-import authRoutes from '@/routes/auth.routes.js';
+
+import type { Application } from 'express';
+
+import { corsConfig } from '@/config/index.js';
 
 const app: Application = express();
 

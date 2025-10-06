@@ -219,6 +219,7 @@ When creating a new feature (e.g., "Product"), follow SOLID principles and creat
 - Follow the `{name}.{type}.ts` naming convention
 - Use dependency injection for loose coupling (DIP)
 - Import types from `@/types/{domain}.type.js`
+- **Follow import organization** - See [IMPORT_ORDER.md](IMPORT_ORDER.md) for import ordering guidelines
 
 ## Important Notes
 

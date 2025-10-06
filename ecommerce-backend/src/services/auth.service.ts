@@ -1,9 +1,13 @@
 import jwt from 'jsonwebtoken';
+
 import { UserRepository } from '@/repositories/user.repository.js';
-import { jwtConfig } from '@/config/index.js';
-import { ConflictError, UnauthorizedError, BadRequestError } from '@/utils/api-error.js';
+
+import { BadRequestError, ConflictError, UnauthorizedError } from '@/utils/api-error.js';
+
 import type { IUser } from '@/models/user.model.js';
-import type { RegisterUserDto, LoginDto, AuthResponse, JwtPayload } from '@/types/auth.type.js';
+import type { AuthResponse, JwtPayload, LoginDto, RegisterUserDto } from '@/types/auth.type.js';
+
+import { jwtConfig } from '@/config/index.js';
 
 export class AuthService {
   constructor(private userRepository: UserRepository) {}
