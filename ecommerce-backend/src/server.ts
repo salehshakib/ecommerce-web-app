@@ -1,6 +1,6 @@
-import app from './app.js';
-import { appConfig } from './config/app.js';
-import { connectDatabase } from './config/database.js';
+import app from '@/app.js';
+import { appConfig } from '@/config/index.js';
+import { connectDatabase } from '@/config/database.js';
 
 const startServer = async (): Promise<void> => {
   try {

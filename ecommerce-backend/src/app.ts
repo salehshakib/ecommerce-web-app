@@ -1,13 +1,13 @@
 import express, { type Application } from 'express';
 import cors from 'cors';
-import { appConfig } from './config/app.js';
-import { errorHandler } from './middlewares/error-handler.js';
-import { notFound } from './middlewares/not-found.js';
+import { corsConfig } from '@/config/index.js';
+import { errorHandler } from '@/middlewares/error-handler.js';
+import { notFound } from '@/middlewares/not-found.js';
 
 const app: Application = express();
 
 // Middleware
-app.use(cors({ origin: appConfig.corsOrigin }));
+app.use(cors({ origin: corsConfig.origin }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
