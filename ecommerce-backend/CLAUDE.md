@@ -112,6 +112,13 @@ The codebase follows a strict **layered architecture** with dependency injection
   - Each file contains ONE utility or related utilities
   - Files: `{name}.util.ts`
 
+- **Types** (`src/types/`): TypeScript type definitions and interfaces
+  - Each file contains types for ONE domain/feature
+  - Files: `{domain}.type.ts` (e.g., `user.type.ts`, `auth.type.ts`, `product.type.ts`)
+  - **IMPORTANT**: Keep types separate from implementation files
+  - Export shared types, interfaces, and type aliases
+  - DTOs (Data Transfer Objects) should be defined here
+
 - **Config** (`src/config/`): Configuration files
   - Each file contains ONE configuration concern
   - Files: `index.ts`, `cors.ts`, `jwt.ts`, `database.ts`
@@ -188,19 +195,22 @@ Required variables (see `.env.example`):
 
 When creating a new feature (e.g., "Product"), follow SOLID principles and create separate files:
 
-1. **Model**: `src/models/product.model.ts` - Define Mongoose schema
-2. **Repository**: `src/repositories/product.repository.ts` - Data access layer (ONE file)
-3. **Service**: `src/services/product.service.ts` - Business logic (ONE file)
-4. **Controller**: `src/controllers/product.controller.ts` - Request handlers (ONE file)
-5. **Validator**: `src/validators/product.validator.ts` - Zod schemas (ONE file)
-6. **Routes**: `src/routes/product.routes.ts` - API endpoints (ONE file)
-7. **Register routes** in `src/app.ts`
+1. **Types**: `src/types/product.type.ts` - Type definitions, interfaces, DTOs (ONE file)
+2. **Model**: `src/models/product.model.ts` - Define Mongoose schema (ONE file)
+3. **Repository**: `src/repositories/product.repository.ts` - Data access layer (ONE file)
+4. **Service**: `src/services/product.service.ts` - Business logic (ONE file)
+5. **Controller**: `src/controllers/product.controller.ts` - Request handlers (ONE file)
+6. **Validator**: `src/validators/product.validator.ts` - Zod schemas (ONE file)
+7. **Routes**: `src/routes/product.routes.ts` - API endpoints (ONE file)
+8. **Register routes** in `src/app.ts`
 
 **Remember**:
+- **ALWAYS create types file first** - Define all types, interfaces, and DTOs
 - Each file contains ONLY ONE class/responsibility (SRP)
 - Keep files in their respective folders
 - Follow the `{name}.{type}.ts` naming convention
 - Use dependency injection for loose coupling (DIP)
+- Import types from `@/types/{domain}.type.js`
 
 ## Important Notes
 
