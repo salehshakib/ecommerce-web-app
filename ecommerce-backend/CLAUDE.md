@@ -83,6 +83,14 @@ The codebase follows a strict **layered architecture** with dependency injection
   - Each file contains ONE repository class
   - Files: `{entity}.repository.ts`
   - Keep each repository in its own file
+  - **IMPORTANT**: Only include COMPLEX queries, not simple pass-through methods
+  - Examples of complex queries:
+    - Queries with `.select()` to include/exclude fields (e.g., `select('+passwordHash')`)
+    - Queries with multiple conditions or aggregations
+    - `countDocuments()` for existence checks without loading full documents
+    - Custom create/update operations with specific logic
+  - **AVOID**: Simple wrappers like `findById()`, `findOne()`, `findByEmail()` - use Model methods directly in services
+  - Only create repository methods when there's additional query complexity
 
 - **Services** (`src/services/`): Business logic, uses repositories
   - Each file contains ONE service class

@@ -1,10 +1,12 @@
 {
   // Visit https://aka.ms/tsconfig to read more about this file
   "compilerOptions": {
-    "ignoreDeprecations": "6.0",
     // File Layout
     "rootDir": "./src",
     "outDir": "./dist",
+
+    // Path aliases (baseUrl deprecated in TS 7.0, suppressing warning for TS 5.x)
+    "ignoreDeprecations": "6.0",
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
