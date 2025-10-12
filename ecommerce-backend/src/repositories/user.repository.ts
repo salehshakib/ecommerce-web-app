@@ -1,6 +1,6 @@
-import type { IUser } from '@/models/user.model.js';
+import type { IUser } from '@/models/user.model';
 
-import { User } from '@/models/user.model.js';
+import { User } from '@/models/user.model';
 
 export class UserRepository {
   // Find user with password field (normally excluded)

@@ -1,4 +1,4 @@
-import type { UserPublicProfile } from '@/types/user.type.js';
+import type { UserPublicProfile } from '@/types/user.type.ts';
 
 export interface RegisterUserDto {
   firstName: string;
@@ -14,10 +14,7 @@ export interface LoginDto {
   password: string;
 }
 
-export interface AuthResponse {
-  user: UserPublicProfile;
-  token: string;
-}
+export type AuthResponse = UserPublicProfile;
 
 export interface JwtPayload {
   id: string;

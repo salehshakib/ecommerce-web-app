@@ -96,11 +96,22 @@ The codebase follows a strict **layered architecture** with dependency injection
   - Each file contains ONE service class
   - Files: `{entity}.service.ts`
   - Keep each service in its own file
+  - **Modular Architecture Pattern**: For complex features, organize services in a feature folder:
+    - `src/services/{feature}/` - Feature folder containing specialized services
+    - `src/services/{feature}/{feature}.service.ts` - Main service that acts as a facade, delegating to specialized services
+    - `src/services/{feature}/{operation}.service.ts` - Specialized services for specific operations
+    - Example: `src/services/auth/` contains `auth.service.ts` (facade), `register.service.ts`, `login.service.ts`, `profile.service.ts`, etc.
 
 - **Controllers** (`src/controllers/`): Request/response handlers, uses services
   - Each file contains ONE controller class
   - Files: `{entity}.controller.ts`
   - Keep each controller in its own file
+  - **Modular Architecture Pattern**: For complex features, organize controllers in a feature folder:
+    - `src/controllers/{feature}/` - Feature folder containing specialized controllers
+    - `src/controllers/{feature}/{feature}.controller.ts` - Main controller that acts as a facade, delegating to specialized controllers using getters
+    - `src/controllers/{feature}/{operation}.controller.ts` - Specialized controllers for specific operations
+    - Example: `src/controllers/auth/` contains `auth.controller.ts` (facade), `register.controller.ts`, `login.controller.ts`, `profile.controller.ts`
+    - The main controller instantiates specialized controllers and exposes their methods via getters
 
 - **Routes** (`src/routes/`): API endpoint definitions with validation middleware
   - Each file contains routes for ONE resource
@@ -137,14 +148,33 @@ The codebase follows a strict **layered architecture** with dependency injection
 
 2. **Async Controllers**: Wrap all async controller methods with `asyncHandler` from `src/utils/async-handler.ts`
 
-3. **Validation**: Use Zod schemas in validators with the `validate` middleware. Schema structure:
+3. **Validation**: Use Zod schemas in validators with the `validate` middleware. The middleware intelligently handles both simple and structured schemas:
+
+   **Structured Schema (Recommended)** - For validating body, params, and query:
    ```typescript
-   z.object({
-     body: z.object({ /* body schema */ }),
-     params: z.object({ /* params schema */ }),
-     query: z.object({ /* query schema */ })
-   })
+   export const profileByIdSchema = z.object({
+     params: z.object({
+       id: z.string().regex(/^[0-9a-fA-F]{24}$/, 'Invalid ID format')
+     })
+   });
+
+   export const registerSchema = z.object({
+     body: z.object({
+       email: z.string().email(),
+       password: z.string().min(8)
+     })
+   });
    ```
+
+   **Simple Schema (Legacy Support)** - For body-only validation:
+   ```typescript
+   export const legacySchema = z.object({
+     email: z.string().email(),
+     password: z.string().min(8)
+   });
+   ```
+
+   **Note**: The validate middleware auto-detects schema structure. Structured schemas provide better validation for params and query parameters.
 
 4. **Dependency Injection**: Controllers receive services via constructor, services receive repositories via constructor
 
@@ -201,16 +231,98 @@ Required variables (see `.env.example`):
 
 ## Adding New Features
 
-When creating a new feature (e.g., "Product"), follow SOLID principles and create separate files:
+### Simple Features (Single Controller/Service)
+
+When creating a simple feature (e.g., "Product"), follow SOLID principles and create separate files:
 
 1. **Types**: `src/types/product.type.ts` - Type definitions, interfaces, DTOs (ONE file)
 2. **Model**: `src/models/product.model.ts` - Define Mongoose schema (ONE file)
-3. **Repository**: `src/repositories/product.repository.ts` - Data access layer (ONE file)
+3. **Repository**: `src/repositories/product.repository.ts` - Data access layer (ONE file, only if complex queries needed)
 4. **Service**: `src/services/product.service.ts` - Business logic (ONE file)
 5. **Controller**: `src/controllers/product.controller.ts` - Request handlers (ONE file)
 6. **Validator**: `src/validators/product.validator.ts` - Zod schemas (ONE file)
 7. **Routes**: `src/routes/product.routes.ts` - API endpoints (ONE file)
 8. **Register routes** in `src/app.ts`
+
+### Complex Features (Multiple Controllers/Services)
+
+When creating a complex feature with multiple operations (e.g., "Auth" with register, login, profile), use the **Modular Architecture Pattern**:
+
+#### Services Structure:
+1. **Types**: `src/types/auth.type.ts` - All auth-related types, interfaces, DTOs
+2. **Model**: `src/models/user.model.ts` - Define Mongoose schema
+3. **Repository**: `src/repositories/user.repository.ts` - Data access layer (if complex queries needed)
+4. **Services Folder**: `src/services/auth/` - Create a feature folder
+   - `auth.service.ts` - Main facade service that delegates to specialized services
+   - `register.service.ts` - Handles registration logic
+   - `login.service.ts` - Handles login logic
+   - `profile.service.ts` - Handles profile operations
+   - Additional specialized services as needed (e.g., `token.service.ts`, `password-validator.service.ts`)
+
+#### Controllers Structure:
+5. **Controllers Folder**: `src/controllers/auth/` - Create a feature folder
+   - `auth.controller.ts` - Main facade controller that delegates to specialized controllers using getters
+   - `register.controller.ts` - Handles registration requests
+   - `login.controller.ts` - Handles login requests
+   - `profile.controller.ts` - Handles profile requests
+6. **Validator**: `src/validators/auth.validator.ts` - All auth-related Zod schemas (ONE file)
+7. **Routes**: `src/routes/auth.routes.ts` - All auth-related API endpoints, imports main facade controller (ONE file)
+8. **Register routes** in `src/app.ts`
+
+#### Facade Pattern Example:
+
+**Service Facade** (`src/services/auth/auth.service.ts`):
+```typescript
+export class AuthService {
+  private registerService: RegisterService;
+  private loginService: LoginService;
+  private profileService: ProfileService;
+
+  constructor(private userRepository: UserRepository) {
+    this.registerService = new RegisterService(userRepository);
+    this.loginService = new LoginService(userRepository);
+    this.profileService = new ProfileService(userRepository);
+  }
+
+  async register(dto: RegisterUserDto): Promise<AuthResponse> {
+    return this.registerService.register(dto);
+  }
+
+  async login(dto: LoginDto): Promise<AuthResponse> {
+    return this.loginService.login(dto);
+  }
+}
+```
+
+**Controller Facade** (`src/controllers/auth/auth.controller.ts`):
+```typescript
+export class AuthController {
+  private registerController: RegisterController;
+  private loginController: LoginController;
+  private profileController: ProfileController;
+
+  constructor(private authService: AuthService) {
+    this.registerController = new RegisterController(authService);
+    this.loginController = new LoginController(authService);
+    this.profileController = new ProfileController(authService);
+  }
+
+  // Delegate to specialized controllers using getters
+  get register() {
+    return this.registerController.register;
+  }
+
+  get login() {
+    return this.loginController.login;
+  }
+
+  get getMyProfile() {
+    return this.profileController.getMyProfile;
+  }
+}
+```
+
+### General Rules
 
 **Remember**:
 - **ALWAYS create types file first** - Define all types, interfaces, and DTOs
@@ -220,6 +332,9 @@ When creating a new feature (e.g., "Product"), follow SOLID principles and creat
 - Use dependency injection for loose coupling (DIP)
 - Import types from `@/types/{domain}.type.js`
 - **Follow import organization** - See [IMPORT_ORDER.md](IMPORT_ORDER.md) for import ordering guidelines
+- **Use Modular Architecture Pattern** for complex features with 3+ operations
+- Main facade services/controllers delegate to specialized implementations
+- Routes only import and use the main facade controller
 
 ## Important Notes
 

@@ -1,8 +1,8 @@
 import { type NextFunction, type Request, type Response } from 'express';
 
-import { ApiError, ValidationError } from '@/utils/api-error.js';
+import { ApiError, ValidationError } from '@/utils/api-error';
 
-import { type ApiResponse } from '@/types/api-response.js';
+import { type ApiResponse } from '@/types/api-response';
 
 export const errorHandler = (err: Error, req: Request, res: Response, next: NextFunction): void => {
   if (err instanceof ValidationError) {

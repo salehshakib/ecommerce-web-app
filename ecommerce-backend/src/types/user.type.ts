@@ -13,4 +13,5 @@ export interface UserPublicProfile {
   profileImage?: string | null;
   createdAt: Date;
   updatedAt: Date;
+  token?: string;
 }

@@ -1,7 +1,7 @@
 import argon2 from 'argon2';
 import mongoose, { Schema } from 'mongoose';
 
-import type { UserPublicProfile, UserRole, UserStatus } from '@/types/user.type.js';
+import type { UserPublicProfile, UserRole, UserStatus } from '@/types/user.type';
 import type { Document, Model } from 'mongoose';
 
 export interface IUser extends Document {
@@ -91,7 +91,7 @@ UserSchema.methods.verifyPassword = function (plain: string): Promise<boolean> {
 
 UserSchema.methods.getPublicProfile = function () {
   return {
-    id: this._id.toString(),
+    _id: this._id.toString(),
     firstName: this.firstName,
     lastName: this.lastName,
     email: this.email,

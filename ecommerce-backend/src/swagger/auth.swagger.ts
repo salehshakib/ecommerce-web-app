@@ -1,11 +1,12 @@
-import type { OpenAPIRegistry } from '@asteasolutions/zod-to-openapi';
+import { loginSchema, registerSchema } from '@/validators/auth.validator';
 
-import { loginSchema, registerSchema } from '@/validators/auth.validator.js';
+import type { OpenAPIRegistry } from '@asteasolutions/zod-to-openapi';
 
 export const registerAuthSchemas = (registry: OpenAPIRegistry) => {
   // Register schemas
   registry.register('RegisterRequest', registerSchema);
   registry.register('LoginRequest', loginSchema);
+  // registry.register('ProfileByIdRequest', profileByIdSchema);
 
   // Register routes
   registry.registerPath({
@@ -46,6 +47,45 @@ export const registerAuthSchemas = (registry: OpenAPIRegistry) => {
       },
       401: {
         description: 'Invalid credentials',
+      },
+    },
+  });
+
+  registry.registerPath({
+    method: 'get',
+    path: '/auth/profile',
+    tags: ['Auth'],
+    security: [{ bearerAuth: [] }],
+    responses: {
+      200: {
+        description: 'User profile',
+      },
+      401: {
+        description: 'Unauthorized',
+      },
+    },
+  });
+
+  registry.registerPath({
+    method: 'get',
+    path: '/auth/profile/{id}',
+    tags: ['Auth'],
+    security: [{ bearerAuth: [] }],
+    parameters: [
+      {
+        name: 'id',
+        in: 'path', // tells Swagger it’s a path variable
+        required: true,
+        schema: { type: 'string' }, // type of the variable
+        example: '670f3a982c3b871f9b4e5a7c', // optional example
+      },
+    ],
+    responses: {
+      200: {
+        description: 'User profile',
+      },
+      404: {
+        description: 'User not found',
       },
     },
   });

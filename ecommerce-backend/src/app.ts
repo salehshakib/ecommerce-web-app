@@ -1,26 +1,24 @@
 import cors from 'cors';
 import express from 'express';
 
-import authRoutes from '@/routes/auth.routes.js';
+import router from '@/routes/auth.routes';
 import swaggerUi from 'swagger-ui-express';
 
-import { errorHandler } from '@/middlewares/error-handler.js';
-import { notFound } from '@/middlewares/not-found.js';
+import { errorHandler } from '@/middlewares/error-handler';
+import { notFound } from '@/middlewares/not-found';
 
 import type { Application } from 'express';
 
-import { corsConfig } from '@/config/index.js';
-import { openApiDoc } from '@/config/swagger.js';
+import { corsConfig } from '@/config/index';
+import { openApiDoc } from '@/config/swagger';
 
 const app: Application = express();
 
-// Swagger setup
-// const swaggerSpec = swaggerJsdoc(swaggerOptions);
-
 // Middleware
-app.use(cors({ origin: corsConfig.origin }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use(cors(corsConfig));
 
 app.use('/api/v1/docs', swaggerUi.serve, swaggerUi.setup(openApiDoc));
 
@@ -33,7 +31,7 @@ app.get('/health', (req, res) => {
 });
 
 // API Routes
-app.use('/api/v1/auth', authRoutes);
+app.use('/api/v1/auth', router);
 
 // Error handling
 app.use(notFound);
