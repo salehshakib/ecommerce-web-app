@@ -1,7 +1,7 @@
 import cors from 'cors';
 import express from 'express';
 
-import router from '@/routes/auth.routes';
+import authRoutes from '@/routes/auth/auth.routes';
 import swaggerUi from 'swagger-ui-express';
 
 import { errorHandler } from '@/middlewares/error-handler';
@@ -31,7 +31,7 @@ app.get('/health', (req, res) => {
 });
 
 // API Routes
-app.use('/api/v1/auth', router);
+app.use('/api/v1/auth', authRoutes);
 
 // Error handling
 app.use(notFound);
