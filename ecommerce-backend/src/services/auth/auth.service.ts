@@ -35,4 +35,24 @@ export class AuthService {
   async getProfileById(userId: string): Promise<AuthResponse> {
     return this.profileService.getProfileById(userId);
   }
+
+  // Update profile from authenticated user (token-based)
+  async updateProfileByToken(user: IUser, updates: Partial<IUser>): Promise<AuthResponse> {
+    return this.profileService.updateProfileByToken(user, updates);
+  }
+
+  // Update profile by user ID (public access with auth)
+  async updateProfileById(id: string, updates: Partial<IUser>): Promise<AuthResponse> {
+    return this.profileService.updateProfileById(id, updates);
+  }
+
+  // Delete profile from authenticated user (token-based)
+  async deleteProfileByToken(user: IUser): Promise<void> {
+    return this.profileService.deleteProfileByToken(user);
+  }
+
+  // Delete profile by user ID (public access with auth)
+  async deleteProfileById(id: string): Promise<void> {
+    return this.profileService.deleteProfileById(id);
+  }
 }

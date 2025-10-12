@@ -33,4 +33,20 @@ export class AuthController {
   get getProfileById() {
     return this.profileController.getProfileById;
   }
+
+  get updateProfile() {
+    return this.profileController.updateProfile;
+  }
+
+  get updateProfileById() {
+    return this.profileController.updateProfileById;
+  }
+
+  get deleteProfile() {
+    return this.profileController.deleteProfile;
+  }
+
+  get deleteProfileById() {
+    return this.profileController.deleteProfileById;
+  }
 }

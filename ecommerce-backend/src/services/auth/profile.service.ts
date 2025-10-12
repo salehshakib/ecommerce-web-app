@@ -31,4 +31,39 @@ export class ProfileService {
 
     return found.getPublicProfile();
   }
+
+  async updateProfileByToken(user: IUser, updates: Partial<IUser>): Promise<AuthResponse> {
+    const found = await User.findById(user.id);
+
+    if (!found) {
+      throw new NotFoundError('User not found');
+    }
+
+    // Apply allowed updates
+    Object.assign(found, updates);
+    await found.save();
+
+    return found.getPublicProfile();
+  }
+
+  async updateProfileById(id: string, updates: Partial<IUser>): Promise<AuthResponse> {
+    const found = await User.findById(id);
+
+    if (!found) {
+      throw new NotFoundError('User not found');
+    }
+
+    Object.assign(found, updates);
+    await found.save();
+
+    return found.getPublicProfile();
+  }
+
+  async deleteProfileByToken(user: IUser): Promise<void> {
+    await User.deleteOne({ _id: user.id });
+  }
+
+  async deleteProfileById(id: string): Promise<void> {
+    await User.deleteOne({ _id: id });
+  }
 }
