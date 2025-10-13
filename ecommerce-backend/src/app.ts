@@ -3,6 +3,7 @@ import express from 'express';
 
 import authRoutes from '@/routes/auth.routes';
 import profileRoutes from '@/routes/profile.routes';
+import userRoutes from '@/routes/user.routes';
 import swaggerUi from 'swagger-ui-express';
 
 import { authenticate } from '@/middlewares/auth.middleware';
@@ -22,8 +23,6 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(cors(corsConfig));
 
-app.use('/api/v1/docs', swaggerUi.serve, swaggerUi.setup(openApiDoc));
-
 app.get('/health', (req, res) => {
   res.status(200).json({
     success: true,
@@ -32,9 +31,11 @@ app.get('/health', (req, res) => {
   });
 });
 
+app.use('/api/v1/docs', swaggerUi.serve, swaggerUi.setup(openApiDoc));
 // API Routes
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/profile', authenticate, profileRoutes);
+app.use('/api/v1/user', authenticate, userRoutes);
 
 // Error handling
 app.use(notFound);

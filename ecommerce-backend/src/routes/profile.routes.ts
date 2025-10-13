@@ -15,22 +15,9 @@ const profileService = new ProfileService(userRepository);
 const profileController = new ProfileController(profileService);
 
 profileRoutes.get('/', profileController.getMyProfile);
-profileRoutes.get('/:id', profileController.getProfileById);
 
-profileRoutes.patch(
-  '/',
-
-  validate(userProfileSchema),
-  profileController.updateProfile,
-);
-profileRoutes.patch(
-  '/:id',
-
-  validate(userProfileSchema),
-  profileController.updateProfileById,
-);
+profileRoutes.patch('/', validate(userProfileSchema), profileController.updateProfile);
 
 profileRoutes.delete('/', profileController.deleteProfile);
-profileRoutes.delete('/:id', profileController.deleteProfileById);
 
 export default profileRoutes;
