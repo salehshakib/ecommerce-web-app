@@ -1,6 +1,6 @@
 import { LoginController } from '@/controllers/auth/login.controller';
-import { ProfileController } from '@/controllers/auth/profile.controller';
 import { RegisterController } from '@/controllers/auth/register.controller';
+import { ProfileController } from '@/controllers/profile/profile.controller';
 import { AuthService } from '@/services/auth/auth.service';
 
 export class AuthController {

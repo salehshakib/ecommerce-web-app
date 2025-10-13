@@ -1,11 +1,10 @@
-import { z } from 'zod';
+import z from 'zod';
 
 import { extendZodWithOpenApi } from '@asteasolutions/zod-to-openapi';
 
 extendZodWithOpenApi(z);
 
-// Register validation schema
-export const registerSchema = z
+export const userProfileSchema = z
   .object({
     firstName: z
       .string()
@@ -45,26 +44,3 @@ export const registerSchema = z
       .openapi({ example: 'https://example.com/avatar.jpg' }),
   })
   .openapi('RegisterRequest');
-
-// UserProfile validation schema
-
-// Login validation schema
-export const loginSchema = z
-  .object({
-    identifier: z
-      .string()
-      .min(1, 'Email or phone number is required')
-      .trim()
-      .openapi({ example: 'john.doe@example.com' }),
-    password: z.string().min(1, 'Password is required').openapi({ example: 'Password123' }),
-  })
-  .openapi('LoginRequest');
-
-// Profile by ID validation schema
-// export const profileByIdSchema = z.object({
-//   id: z
-//     .string()
-//     .min(1, 'User ID is required')
-//     .regex(/^[0-9a-fA-F]{24}$/, 'Invalid user ID format')
-//     .openapi('ProfileByIdRequest'),
-// });

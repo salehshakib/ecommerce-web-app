@@ -1,9 +1,11 @@
 import cors from 'cors';
 import express from 'express';
 
-import authRoutes from '@/routes/auth/auth.routes';
+import authRoutes from '@/routes/auth.routes';
+import profileRoutes from '@/routes/profile.routes';
 import swaggerUi from 'swagger-ui-express';
 
+import { authenticate } from '@/middlewares/auth.middleware';
 import { errorHandler } from '@/middlewares/error-handler';
 import { notFound } from '@/middlewares/not-found';
 
@@ -32,6 +34,7 @@ app.get('/health', (req, res) => {
 
 // API Routes
 app.use('/api/v1/auth', authRoutes);
+app.use('/api/v1/profile', authenticate, profileRoutes);
 
 // Error handling
 app.use(notFound);

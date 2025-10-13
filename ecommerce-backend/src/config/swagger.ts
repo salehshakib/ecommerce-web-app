@@ -1,4 +1,5 @@
 import { registerAuthSchemas } from '@/swagger/auth.swagger';
+import { registerProfileSchemas } from '@/swagger/profile.swagger';
 import { OpenApiGeneratorV3, OpenAPIRegistry } from '@asteasolutions/zod-to-openapi';
 
 const registry = new OpenAPIRegistry();
@@ -11,6 +12,7 @@ registry.registerComponent('securitySchemes', 'bearerAuth', {
 });
 
 registerAuthSchemas(registry);
+registerProfileSchemas(registry);
 
 const generator = new OpenApiGeneratorV3(registry.definitions);
 

@@ -1,6 +1,6 @@
 import { type Request, type Response } from 'express';
 
-import { AuthService } from '@/services/auth/auth.service';
+import { ProfileService } from '@/services/profile/profile.service';
 
 import { UnauthorizedError } from '@/utils/api-error';
 import { asyncHandler } from '@/utils/async-handler';
@@ -8,7 +8,7 @@ import { asyncHandler } from '@/utils/async-handler';
 import type { ApiResponse } from '@/types/api-response';
 
 export class ProfileController {
-  constructor(private authService: AuthService) {}
+  constructor(private profileService: ProfileService) {}
 
   // Get own profile using token (no ID needed)
   getMyProfile = asyncHandler(async (req: Request, res: Response): Promise<void> => {
@@ -16,7 +16,7 @@ export class ProfileController {
       throw new UnauthorizedError('User not authenticated');
     }
 
-    const result = await this.authService.getProfileByToken(req.user);
+    const result = await this.profileService.getProfileByToken(req.user);
 
     const response: ApiResponse = {
       success: true,
@@ -35,7 +35,7 @@ export class ProfileController {
       throw new UnauthorizedError('User ID is required');
     }
 
-    const result = await this.authService.getProfileById(id);
+    const result = await this.profileService.getProfileById(id);
 
     const response: ApiResponse = {
       success: true,
@@ -51,7 +51,7 @@ export class ProfileController {
       throw new UnauthorizedError('User not authenticated');
     }
 
-    const result = await this.authService.updateProfileByToken(req.user, req.body);
+    const result = await this.profileService.updateProfileByToken(req.user, req.body);
 
     const response: ApiResponse = {
       success: true,
@@ -69,7 +69,7 @@ export class ProfileController {
       throw new UnauthorizedError('User ID is required');
     }
 
-    const result = await this.authService.updateProfileById(id, req.body);
+    const result = await this.profileService.updateProfileById(id, req.body);
 
     const response: ApiResponse = {
       success: true,
@@ -85,7 +85,7 @@ export class ProfileController {
       throw new UnauthorizedError('User not authenticated');
     }
 
-    const result = await this.authService.deleteProfileByToken(req.user.id);
+    const result = await this.profileService.deleteProfileByToken(req.user.id);
 
     const response: ApiResponse = {
       success: true,
@@ -103,7 +103,7 @@ export class ProfileController {
       throw new UnauthorizedError('User ID is required');
     }
 
-    const result = await this.authService.deleteProfileById(id);
+    const result = await this.profileService.deleteProfileById(id);
 
     const response: ApiResponse = {
       success: true,
