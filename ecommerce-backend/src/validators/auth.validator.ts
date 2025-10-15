@@ -46,8 +46,6 @@ export const registerSchema = z
   })
   .openapi('RegisterRequest');
 
-// UserProfile validation schema
-
 // Login validation schema
 export const loginSchema = z
   .object({
@@ -59,12 +57,3 @@ export const loginSchema = z
     password: z.string().min(1, 'Password is required').openapi({ example: 'Password123' }),
   })
   .openapi('LoginRequest');
-
-// Profile by ID validation schema
-// export const profileByIdSchema = z.object({
-//   id: z
-//     .string()
-//     .min(1, 'User ID is required')
-//     .regex(/^[0-9a-fA-F]{24}$/, 'Invalid user ID format')
-//     .openapi('ProfileByIdRequest'),
-// });

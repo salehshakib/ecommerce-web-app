@@ -1,32 +1,31 @@
+import { commonResponses } from '@/swagger/common-response';
+import { securityRequirement } from '@/swagger/security-requirment';
+
 import { settingsSchema } from '@/validators/settings.validator';
 
-import type { OpenAPIRegistry } from '@asteasolutions/zod-to-openapi';
+import type { OpenAPIRegistry, RouteConfig } from '@asteasolutions/zod-to-openapi';
 
-export const registerSettingsSchemas = (registry: OpenAPIRegistry) => {
-  // ---- Register Schemas ----
-  registry.register('SettingsRequest', settingsSchema);
+const baseRouteConfig = {
+  tags: ['Settings'],
+};
 
-  // ---- Register Routes ----
-  registry.registerPath({
+const settingsRoutes: RouteConfig[] = [
+  {
     method: 'get',
     path: '/settings',
-    tags: ['Settings'],
+    ...baseRouteConfig,
     summary: 'Get site settings',
     description: 'Retrieve the full site configuration settings.',
     responses: {
-      200: {
-        description: 'Settings retrieved successfully',
-      },
-      404: {
-        description: 'Settings not found',
-      },
+      200: commonResponses[200],
+      404: commonResponses[404],
     },
-  });
-
-  registry.registerPath({
+  },
+  {
     method: 'patch',
     path: '/settings',
-    tags: ['Settings'],
+    ...baseRouteConfig,
+    security: securityRequirement,
     summary: 'Update site settings',
     description: 'Update existing settings or create them if they do not exist.',
     request: {
@@ -37,12 +36,12 @@ export const registerSettingsSchemas = (registry: OpenAPIRegistry) => {
       },
     },
     responses: {
-      200: {
-        description: 'Settings updated successfully',
-      },
-      400: {
-        description: 'Validation error or bad request',
-      },
+      200: commonResponses[200],
+      400: commonResponses[400],
     },
-  });
+  },
+];
+
+export const registerSettingsSchemas = (registry: OpenAPIRegistry) => {
+  settingsRoutes.forEach((route) => registry.registerPath(route));
 };

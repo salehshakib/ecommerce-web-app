@@ -1,63 +1,48 @@
+import { commonResponses } from '@/swagger/common-response';
+import { securityRequirement } from '@/swagger/security-requirment';
+
 import { userProfileSchema } from '@/validators/profile.validator';
 
-import type { OpenAPIRegistry } from '@asteasolutions/zod-to-openapi';
+import type { OpenAPIRegistry, RouteConfig } from '@asteasolutions/zod-to-openapi';
 
-export const registerUserSchemas = (registry: OpenAPIRegistry) => {
-  registry.register('UserRequest', userProfileSchema);
+const userIdPathParam = {
+  name: 'id',
+  in: 'path' as const,
+  required: true,
+  schema: { type: 'string' as const },
+  example: '670f3a982c3b871f9b4e5a7c',
+};
 
-  registry.registerPath({
+const baseRouteConfig = {
+  tags: ['User'],
+  security: securityRequirement,
+};
+
+const userRoutes: RouteConfig[] = [
+  {
     method: 'get',
     path: '/user/all',
-    tags: ['User'],
-    security: [{ bearerAuth: [] }],
+    ...baseRouteConfig,
     responses: {
-      200: {
-        description: 'User profile',
-      },
-      401: {
-        description: 'Unauthorized',
-      },
+      200: commonResponses[200],
+      401: commonResponses[401],
     },
-  });
-
-  registry.registerPath({
+  },
+  {
     method: 'get',
     path: '/user/{id}',
-    tags: ['User'],
-    security: [{ bearerAuth: [] }],
-    parameters: [
-      {
-        name: 'id',
-        in: 'path', // tells Swagger it’s a path variable
-        required: true,
-        schema: { type: 'string' }, // type of the variable
-        example: '670f3a982c3b871f9b4e5a7c', // optional example
-      },
-    ],
+    ...baseRouteConfig,
+    parameters: [userIdPathParam],
     responses: {
-      200: {
-        description: 'User profile',
-      },
-      404: {
-        description: 'User not found',
-      },
+      200: commonResponses[200],
+      404: commonResponses[404],
     },
-  });
-
-  registry.registerPath({
+  },
+  {
     method: 'patch',
     path: '/user/{id}',
-    tags: ['User'],
-    security: [{ bearerAuth: [] }],
-    parameters: [
-      {
-        name: 'id',
-        in: 'path', // tells Swagger it’s a path variable
-        required: true,
-        schema: { type: 'string' }, // type of the variable
-        example: '670f3a982c3b871f9b4e5a7c', // optional example
-      },
-    ],
+    ...baseRouteConfig,
+    parameters: [userIdPathParam],
     request: {
       body: {
         content: {
@@ -66,36 +51,22 @@ export const registerUserSchemas = (registry: OpenAPIRegistry) => {
       },
     },
     responses: {
-      200: {
-        description: 'User profile',
-      },
-      404: {
-        description: 'User not found',
-      },
+      200: commonResponses[200],
+      404: commonResponses[404],
     },
-  });
-
-  registry.registerPath({
+  },
+  {
     method: 'delete',
     path: '/user/{id}',
-    tags: ['User'],
-    security: [{ bearerAuth: [] }],
-    parameters: [
-      {
-        name: 'id',
-        in: 'path', // tells Swagger it’s a path variable
-        required: true,
-        schema: { type: 'string' }, // type of the variable
-        example: '670f3a982c3b871f9b4e5a7c', // optional example
-      },
-    ],
+    ...baseRouteConfig,
+    parameters: [userIdPathParam],
     responses: {
-      200: {
-        description: 'User profile',
-      },
-      404: {
-        description: 'User not found',
-      },
+      200: commonResponses[200],
+      404: commonResponses[404],
     },
-  });
+  },
+];
+
+export const registerUserSchemas = (registry: OpenAPIRegistry) => {
+  userRoutes.forEach((route) => registry.registerPath(route));
 };

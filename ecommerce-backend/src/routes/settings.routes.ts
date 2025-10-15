@@ -19,8 +19,8 @@ const settingsController = new SettingsController(settingsService);
 settingsRoutes.get('/', settingsController.getSettings);
 settingsRoutes.patch(
   '/',
-  validate(settingsSchema),
   authenticate,
+  validate(settingsSchema),
   settingsController.updateSettings,
 );
 

@@ -1,18 +1,18 @@
+import { commonResponses } from '@/swagger/common-response';
+
 import { loginSchema, registerSchema } from '@/validators/auth.validator';
 
-import type { OpenAPIRegistry } from '@asteasolutions/zod-to-openapi';
+import type { OpenAPIRegistry, RouteConfig } from '@asteasolutions/zod-to-openapi';
 
-export const registerAuthSchemas = (registry: OpenAPIRegistry) => {
-  // Register schemas
-  registry.register('RegisterRequest', registerSchema);
-  registry.register('LoginRequest', loginSchema);
-  // registry.register('ProfileByIdRequest', profileByIdSchema);
+const baseRouteConfig = {
+  tags: ['Auth'],
+};
 
-  // Register routes
-  registry.registerPath({
+const authRoutes: RouteConfig[] = [
+  {
     method: 'post',
     path: '/auth/register',
-    tags: ['Auth'],
+    ...baseRouteConfig,
     request: {
       body: {
         content: {
@@ -21,19 +21,15 @@ export const registerAuthSchemas = (registry: OpenAPIRegistry) => {
       },
     },
     responses: {
-      201: {
-        description: 'User registered successfully',
-      },
-      400: {
-        description: 'Validation error',
-      },
+      201: commonResponses[201],
+      400: commonResponses[400],
+      409: commonResponses[409],
     },
-  });
-
-  registry.registerPath({
+  },
+  {
     method: 'post',
     path: '/auth/login',
-    tags: ['Auth'],
+    ...baseRouteConfig,
     request: {
       body: {
         content: {
@@ -42,12 +38,14 @@ export const registerAuthSchemas = (registry: OpenAPIRegistry) => {
       },
     },
     responses: {
-      200: {
-        description: 'Login successful',
-      },
-      401: {
-        description: 'Invalid credentials',
-      },
+      200: commonResponses[200],
+      400: commonResponses[400],
+      401: commonResponses[401],
     },
-  });
+  },
+];
+
+export const registerAuthSchemas = (registry: OpenAPIRegistry) => {
+  // Register routes
+  authRoutes.forEach((route) => registry.registerPath(route));
 };

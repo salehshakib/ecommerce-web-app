@@ -43,4 +43,4 @@ export const userProfileSchema = z
       .transform((val) => (val === '' ? undefined : val))
       .openapi({ example: 'https://example.com/avatar.jpg' }),
   })
-  .openapi('RegisterRequest');
+  .openapi('ProfileRequest');

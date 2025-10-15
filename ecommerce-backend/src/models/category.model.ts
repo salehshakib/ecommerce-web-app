@@ -42,8 +42,7 @@ const CategorySchema = new Schema<ICategory, ICategoryModel>(
 );
 
 // Indexes
-CategorySchema.index({ name: 1 });
-CategorySchema.index({ isActive: 1 });
+
 CategorySchema.index({ createdAt: -1 });
 
 // Pre-validation cleanup

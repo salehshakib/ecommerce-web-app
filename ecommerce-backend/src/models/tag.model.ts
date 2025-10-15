@@ -13,7 +13,6 @@ const TagSchema = new Schema<ITag, ITagModel>(
       trim: true,
       unique: true,
       maxlength: 50,
-      index: true,
     },
     description: {
       type: String,
@@ -24,7 +23,6 @@ const TagSchema = new Schema<ITag, ITagModel>(
     isActive: {
       type: Boolean,
       default: true,
-      index: true,
     },
   },
   {

@@ -1,33 +1,31 @@
-import { NextFunction, Request, Response } from 'express';
+import { Request, Response } from 'express';
 
 import { SettingsService } from '@/services/settings.service';
+
+import { asyncHandler } from '@/utils/async-handler';
+
+import type { ISettings } from '@/types/settings.type';
 
 export class SettingsController {
   constructor(private settingsService: SettingsService) {}
 
-  async getSettings(_req: Request, res: Response, next: NextFunction) {
-    try {
-      const result = await this.settingsService.getSettings();
-      res.status(200).json({
-        success: true,
-        message: 'Settings retrieved successfully',
-        data: result,
-      });
-    } catch (error) {
-      next(error);
-    }
-  }
+  getSettings = asyncHandler(async (req: Request, res: Response) => {
+    const settings = await this.settingsService.getSettings();
+    res.status(200).json({
+      success: true,
+      data: settings,
+      message: settings ? 'Settings retrieved successfully' : 'No settings found',
+    });
+  });
 
-  async updateSettings(req: Request, res: Response, next: NextFunction) {
-    try {
-      const result = await this.settingsService.updateSettings(req.body);
-      res.status(200).json({
-        success: true,
-        message: 'Settings updated successfully',
-        data: result,
-      });
-    } catch (error) {
-      next(error);
-    }
-  }
+  updateSettings = asyncHandler(async (req: Request, res: Response) => {
+    const settingsData = req.body as Partial<ISettings>;
+    const updatedSettings = await this.settingsService.updateSettings(settingsData);
+
+    res.status(200).json({
+      success: true,
+      data: updatedSettings,
+      message: 'Settings updated successfully',
+    });
+  });
 }

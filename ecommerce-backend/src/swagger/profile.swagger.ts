@@ -1,30 +1,29 @@
+import { commonResponses } from '@/swagger/common-response';
+import { securityRequirement } from '@/swagger/security-requirment';
+
 import { userProfileSchema } from '@/validators/profile.validator';
 
-import type { OpenAPIRegistry } from '@asteasolutions/zod-to-openapi';
+import type { OpenAPIRegistry, RouteConfig } from '@asteasolutions/zod-to-openapi';
 
-export const registerProfileSchemas = (registry: OpenAPIRegistry) => {
-  registry.register('ProfileRequest', userProfileSchema);
+const baseRouteConfig = {
+  tags: ['Profile'],
+  security: securityRequirement,
+};
 
-  registry.registerPath({
+const profileRoutes: RouteConfig[] = [
+  {
     method: 'get',
     path: '/profile',
-    tags: ['Profile'],
-    security: [{ bearerAuth: [] }],
+    ...baseRouteConfig,
     responses: {
-      200: {
-        description: 'User profile',
-      },
-      401: {
-        description: 'Unauthorized',
-      },
+      200: commonResponses[200],
+      401: commonResponses[401],
     },
-  });
-
-  registry.registerPath({
+  },
+  {
     method: 'patch',
     path: '/profile',
-    tags: ['Profile'],
-    security: [{ bearerAuth: [] }],
+    ...baseRouteConfig,
     request: {
       body: {
         content: {
@@ -33,28 +32,21 @@ export const registerProfileSchemas = (registry: OpenAPIRegistry) => {
       },
     },
     responses: {
-      200: {
-        description: 'User profile',
-      },
-      404: {
-        description: 'User not found',
-      },
+      200: commonResponses[200],
+      404: commonResponses[404],
     },
-  });
-
-  registry.registerPath({
+  },
+  {
     method: 'delete',
     path: '/profile',
-    tags: ['Profile'],
-    security: [{ bearerAuth: [] }],
-
+    ...baseRouteConfig,
     responses: {
-      200: {
-        description: 'User profile',
-      },
-      404: {
-        description: 'User not found',
-      },
+      200: commonResponses[200],
+      404: commonResponses[404],
     },
-  });
+  },
+];
+
+export const registerProfileSchemas = (registry: OpenAPIRegistry) => {
+  profileRoutes.forEach((route) => registry.registerPath(route));
 };

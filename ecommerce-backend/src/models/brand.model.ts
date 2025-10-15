@@ -47,8 +47,6 @@ const BrandSchema = new Schema<IBrand, IBrandModel>(
 );
 
 // --- Indexes ---
-BrandSchema.index({ name: 1 });
-BrandSchema.index({ isActive: 1 });
 BrandSchema.index({ createdAt: -1 });
 
 // --- Pre-validation cleanup ---
