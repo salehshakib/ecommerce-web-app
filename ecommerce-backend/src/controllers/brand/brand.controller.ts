@@ -18,6 +18,15 @@ export class BrandController {
     }
   }
 
+  async getActive(req: Request, res: Response, next: NextFunction) {
+    try {
+      const data = await this.service.getActive();
+      res.status(200).json({ success: true, message: 'Active brands fetched successfully', data });
+    } catch (error) {
+      next(error);
+    }
+  }
+
   async getById(req: Request, res: Response, next: NextFunction) {
     try {
       const data = await this.service.getById(req.params.id);
@@ -49,6 +58,19 @@ export class BrandController {
     try {
       await this.service.delete(req.params.id);
       res.status(200).json({ success: true, message: 'Brand deleted successfully' });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async toggleStatus(req: Request, res: Response, next: NextFunction) {
+    try {
+      const data = await this.service.toggleStatus(req.params.id);
+      res.status(200).json({
+        success: true,
+        message: `Brand ${data.isActive ? 'activated' : 'deactivated'} successfully`,
+        data,
+      });
     } catch (error) {
       next(error);
     }

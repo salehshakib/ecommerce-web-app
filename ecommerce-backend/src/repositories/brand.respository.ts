@@ -1,6 +1,7 @@
 import { BaseRepository } from '@/repositories/base.repository';
 
 import { IBrand } from '@/types/brand.type';
+import type { FilterQuery } from 'mongoose';
 
 import { Brand } from '@/models/brand.model';
 
@@ -9,19 +10,21 @@ export class BrandRepository extends BaseRepository<IBrand> {
     super(Brand);
   }
 
-  async getById(id: string): Promise<IBrand | null> {
-    return this.model.findById(id).exec();
+  async findActiveBrands(): Promise<IBrand[]> {
+    return this.find({ isActive: true } as FilterQuery<IBrand>);
   }
 
-  async getByName(name: string): Promise<IBrand | null> {
-    return this.model.findOne({ name }).exec();
+  async findByName(name: string): Promise<IBrand | null> {
+    return this.findOne({ name: name.trim() } as FilterQuery<IBrand>);
   }
 
-  async updateById(id: string, payload: Partial<IBrand>): Promise<IBrand | null> {
-    return this.model.findByIdAndUpdate(id, payload, { new: true }).exec();
+  async existsByName(name: string): Promise<boolean> {
+    const count = await this.count({ name: name.trim() } as FilterQuery<IBrand>);
+    return count > 0;
   }
 
-  async findAllActive(): Promise<IBrand[]> {
-    return this.model.find({ isActive: true }).sort({ createdAt: -1 }).exec();
+  async findActiveById(id: string): Promise<IBrand | null> {
+    const brand = await this.findById(id);
+    return brand && brand.isActive ? brand : null;
   }
 }

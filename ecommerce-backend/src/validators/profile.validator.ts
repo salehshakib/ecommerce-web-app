@@ -44,3 +44,5 @@ export const userProfileSchema = z
       .openapi({ example: 'https://example.com/avatar.jpg' }),
   })
   .openapi('ProfileRequest');
+
+export const userUpdateSchema = userProfileSchema.partial().openapi('ProfileUpdateRequest');

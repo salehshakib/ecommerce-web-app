@@ -17,8 +17,20 @@ const controller = new BrandController(service);
 
 brandRoutes.get('/', controller.getAll.bind(controller));
 brandRoutes.get('/:id', controller.getById.bind(controller));
-brandRoutes.post('/', authenticate, validate(brandSchema), controller.create.bind(controller));
-brandRoutes.patch('/:id', authenticate, validate(brandSchema), controller.update.bind(controller));
-brandRoutes.delete('/:id', authenticate, controller.delete.bind(controller));
+brandRoutes.post(
+  '/',
+  authenticate,
+  authenticate,
+  validate(brandSchema),
+  controller.create.bind(controller),
+);
+brandRoutes.patch(
+  '/:id',
+  authenticate,
+  authenticate,
+  validate(brandSchema),
+  controller.update.bind(controller),
+);
+brandRoutes.delete('/:id', authenticate, authenticate, controller.delete.bind(controller));
 
 export default brandRoutes;

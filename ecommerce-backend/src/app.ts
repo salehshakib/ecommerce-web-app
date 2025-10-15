@@ -42,7 +42,7 @@ app.use('/api/v1/user', authenticate, userRoutes);
 // app.use('/api/v1/user', authenticate, userRoutes);
 // app.use('/api/v1/user', authenticate, userRoutes);
 // app.use('/api/v1/user', authenticate, userRoutes);
-app.use('/api/v1/brand', authenticate, brandRoutes);
+app.use('/api/v1/brands', brandRoutes);
 
 app.use('/api/v1/settings', settingsRoutes);
 

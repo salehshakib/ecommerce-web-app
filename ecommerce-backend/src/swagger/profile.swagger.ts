@@ -1,7 +1,7 @@
 import { commonResponses } from '@/swagger/common-response';
 import { securityRequirement } from '@/swagger/security-requirment';
 
-import { userProfileSchema } from '@/validators/profile.validator';
+import { userUpdateSchema } from '@/validators/profile.validator';
 
 import type { OpenAPIRegistry, RouteConfig } from '@asteasolutions/zod-to-openapi';
 
@@ -27,7 +27,7 @@ const profileRoutes: RouteConfig[] = [
     request: {
       body: {
         content: {
-          'application/json': { schema: userProfileSchema },
+          'application/json': { schema: userUpdateSchema },
         },
       },
     },

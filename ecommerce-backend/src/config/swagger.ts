@@ -1,4 +1,5 @@
 import { registerAuthSchemas } from '@/swagger/auth.swagger';
+import { registerBrandSchemas } from '@/swagger/brand.swagger';
 import { registerProfileSchemas } from '@/swagger/profile.swagger';
 import { registerSettingsSchemas } from '@/swagger/settings.swagger';
 import { registerUserSchemas } from '@/swagger/user.swagger';
@@ -16,6 +17,7 @@ registry.registerComponent('securitySchemes', 'bearerAuth', {
 registerAuthSchemas(registry);
 registerProfileSchemas(registry);
 registerUserSchemas(registry);
+registerBrandSchemas(registry);
 registerSettingsSchemas(registry);
 
 const generator = new OpenApiGeneratorV3(registry.definitions);
