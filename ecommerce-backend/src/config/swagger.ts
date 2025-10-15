@@ -1,5 +1,6 @@
 import { registerAuthSchemas } from '@/swagger/auth.swagger';
 import { registerBrandSchemas } from '@/swagger/brand.swagger';
+import { registerCategorySchemas } from '@/swagger/category.swagger';
 import { registerProfileSchemas } from '@/swagger/profile.swagger';
 import { registerSettingsSchemas } from '@/swagger/settings.swagger';
 import { registerUserSchemas } from '@/swagger/user.swagger';
@@ -18,6 +19,7 @@ registerAuthSchemas(registry);
 registerProfileSchemas(registry);
 registerUserSchemas(registry);
 registerBrandSchemas(registry);
+registerCategorySchemas(registry);
 registerSettingsSchemas(registry);
 
 const generator = new OpenApiGeneratorV3(registry.definitions);

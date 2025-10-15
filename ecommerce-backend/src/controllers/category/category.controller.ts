@@ -1,18 +1,18 @@
 import { NextFunction, Request, Response } from 'express';
 
-import { BrandService } from '@/services/brand.service';
+import { CategoryService } from '@/services/category.service';
 
-export class BrandController {
-  private service: BrandService;
+export class CategoryController {
+  private service: CategoryService;
 
-  constructor(service: BrandService) {
+  constructor(service: CategoryService) {
     this.service = service;
   }
 
   async getAll(req: Request, res: Response, next: NextFunction) {
     try {
       const data = await this.service.getAll();
-      res.status(200).json({ success: true, message: 'Brands fetched successfully', data });
+      res.status(200).json({ success: true, message: 'Categories fetched successfully', data });
     } catch (error) {
       next(error);
     }
@@ -21,7 +21,9 @@ export class BrandController {
   async getActive(req: Request, res: Response, next: NextFunction) {
     try {
       const data = await this.service.getActive();
-      res.status(200).json({ success: true, message: 'Active brands fetched successfully', data });
+      res
+        .status(200)
+        .json({ success: true, message: 'Active categories fetched successfully', data });
     } catch (error) {
       next(error);
     }
@@ -30,7 +32,7 @@ export class BrandController {
   async getById(req: Request, res: Response, next: NextFunction) {
     try {
       const data = await this.service.getById(req.params.id);
-      res.status(200).json({ success: true, message: 'Brand fetched successfully', data });
+      res.status(200).json({ success: true, message: 'Category fetched successfully', data });
     } catch (error) {
       next(error);
     }
@@ -39,7 +41,7 @@ export class BrandController {
   async create(req: Request, res: Response, next: NextFunction) {
     try {
       const data = await this.service.create(req.body);
-      res.status(201).json({ success: true, message: 'Brand created successfully', data });
+      res.status(201).json({ success: true, message: 'Category created successfully', data });
     } catch (error) {
       next(error);
     }
@@ -48,7 +50,7 @@ export class BrandController {
   async update(req: Request, res: Response, next: NextFunction) {
     try {
       const data = await this.service.update(req.params.id, req.body);
-      res.status(200).json({ success: true, message: 'Brand updated successfully', data });
+      res.status(200).json({ success: true, message: 'Category updated successfully', data });
     } catch (error) {
       next(error);
     }
@@ -57,7 +59,7 @@ export class BrandController {
   async delete(req: Request, res: Response, next: NextFunction) {
     try {
       await this.service.delete(req.params.id);
-      res.status(200).json({ success: true, message: 'Brand deleted successfully' });
+      res.status(200).json({ success: true, message: 'Category deleted successfully' });
     } catch (error) {
       next(error);
     }
@@ -68,7 +70,7 @@ export class BrandController {
       const data = await this.service.toggleStatus(req.params.id);
       res.status(200).json({
         success: true,
-        message: `Brand ${data.isActive ? 'activated' : 'deactivated'} successfully`,
+        message: `Category ${data.isActive ? 'activated' : 'deactivated'} successfully`,
         data,
       });
     } catch (error) {

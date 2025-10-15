@@ -1,7 +1,7 @@
 import { Router } from 'express';
 
 import { ProfileController } from '@/controllers/profile/profile.controller';
-import { ProfileService } from '@/services/profile/profile.service';
+import { ProfileService } from '@/services/profile.service';
 import { UserRepository } from '@/repositories/user.repository';
 
 import { userProfileSchema } from '@/validators/profile.validator';

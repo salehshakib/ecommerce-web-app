@@ -1,7 +1,7 @@
 import express from 'express';
 
 import { BrandController } from '@/controllers/brand/brand.controller';
-import { BrandService } from '@/services/brand/brand.service';
+import { BrandService } from '@/services/brand.service';
 import { BrandRepository } from '@/repositories/brand.respository';
 
 import { brandSchema } from '@/validators/brand.validator';
@@ -15,22 +15,12 @@ const repo = new BrandRepository();
 const service = new BrandService(repo);
 const controller = new BrandController(service);
 
-brandRoutes.get('/', controller.getAll.bind(controller));
-brandRoutes.get('/:id', controller.getById.bind(controller));
-brandRoutes.post(
-  '/',
-  authenticate,
-  authenticate,
-  validate(brandSchema),
-  controller.create.bind(controller),
-);
-brandRoutes.patch(
-  '/:id',
-  authenticate,
-  authenticate,
-  validate(brandSchema),
-  controller.update.bind(controller),
-);
-brandRoutes.delete('/:id', authenticate, authenticate, controller.delete.bind(controller));
+brandRoutes.get('/', controller.getAll);
+brandRoutes.get('/active', controller.getActive);
+
+brandRoutes.get('/:id', controller.getById);
+brandRoutes.post('/', authenticate, validate(brandSchema), controller.create);
+brandRoutes.patch('/:id', authenticate, validate(brandSchema), controller.update);
+brandRoutes.delete('/:id', authenticate, controller.delete);
 
 export default brandRoutes;

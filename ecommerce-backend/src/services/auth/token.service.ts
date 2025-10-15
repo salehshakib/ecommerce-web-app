@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 
-import type { IUser } from '@/models/user.model';
+import { IUser } from '@/types/user.type';
 import type { JwtPayload } from '@/types/auth.type';
 
 import { jwtConfig } from '@/config/index';

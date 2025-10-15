@@ -1,6 +1,6 @@
 import { type Request, type Response } from 'express';
 
-import { ProfileService } from '@/services/profile/profile.service';
+import { ProfileService } from '@/services/profile.service';
 
 import { UnauthorizedError } from '@/utils/api-error';
 import { asyncHandler } from '@/utils/async-handler';

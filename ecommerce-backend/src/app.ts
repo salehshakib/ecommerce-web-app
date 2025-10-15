@@ -3,6 +3,7 @@ import express from 'express';
 
 import authRoutes from '@/routes/auth.routes';
 import brandRoutes from '@/routes/brand.routes';
+import categoryRoutes from '@/routes/category.routes';
 import profileRoutes from '@/routes/profile.routes';
 import settingsRoutes from '@/routes/settings.routes';
 import userRoutes from '@/routes/user.routes';
@@ -43,6 +44,7 @@ app.use('/api/v1/user', authenticate, userRoutes);
 // app.use('/api/v1/user', authenticate, userRoutes);
 // app.use('/api/v1/user', authenticate, userRoutes);
 app.use('/api/v1/brands', brandRoutes);
+app.use('/api/v1/categories', categoryRoutes);
 
 app.use('/api/v1/settings', settingsRoutes);
 
