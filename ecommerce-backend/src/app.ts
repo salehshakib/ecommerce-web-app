@@ -16,6 +16,7 @@ import { notFound } from '@/middlewares/not-found';
 import type { Application } from 'express';
 
 import { corsConfig } from '@/config/index';
+import { connectDatabase } from '@/config/database';
 import { openApiDoc } from '@/config/swagger';
 
 const app: Application = express();
@@ -51,5 +52,10 @@ app.use('/api/v1/settings', settingsRoutes);
 // Error handling
 app.use(notFound);
 app.use(errorHandler);
+
+// Ensure DB is initialized when the app is imported in serverless environments
+void connectDatabase().catch((err) => {
+  console.error('Database init failed during app bootstrap:', err);
+});
 
 export default app;

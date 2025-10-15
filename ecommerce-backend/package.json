@@ -18,6 +18,7 @@
   "type": "module",
   "dependencies": {
     "@asteasolutions/zod-to-openapi": "^8.1.0",
+    "@vercel/node": "^5.3.26",
     "argon2": "^0.44.0",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
