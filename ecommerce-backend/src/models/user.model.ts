@@ -1,26 +1,8 @@
 import argon2 from 'argon2';
 import mongoose, { Schema } from 'mongoose';
 
-import type { UserPublicProfile, UserRole, UserStatus } from '@/types/user.type';
-import type { Document, Model } from 'mongoose';
-
-export interface IUser extends Document {
-  firstName: string;
-  lastName: string;
-  email: string;
-  phone?: string | null;
-  passwordHash: string;
-  role: UserRole;
-  status: UserStatus;
-  emailVerifiedAt?: Date | null;
-  profileImage?: string | null;
-  createdAt: Date;
-  updatedAt: Date;
-
-  setPassword(plain: string): Promise<void>;
-  verifyPassword(plain: string): Promise<boolean>;
-  getPublicProfile(): UserPublicProfile;
-}
+import type { IUser } from '@/types/user.type';
+import type { Model } from 'mongoose';
 
 export interface IUserModel extends Model<IUser> {}
 
@@ -91,7 +73,7 @@ UserSchema.methods.verifyPassword = function (plain: string): Promise<boolean> {
 
 UserSchema.methods.getPublicProfile = function () {
   return {
-    _id: this._id.toString(),
+    id: this._id.toString(),
     firstName: this.firstName,
     lastName: this.lastName,
     email: this.email,
