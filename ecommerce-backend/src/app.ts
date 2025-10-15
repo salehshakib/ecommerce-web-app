@@ -3,6 +3,7 @@ import express from 'express';
 
 import authRoutes from '@/routes/auth.routes';
 import profileRoutes from '@/routes/profile.routes';
+import settingsRoutes from '@/routes/settings.routes';
 import userRoutes from '@/routes/user.routes';
 import swaggerUi from 'swagger-ui-express';
 
@@ -36,6 +37,8 @@ app.use('/api/v1/docs', swaggerUi.serve, swaggerUi.setup(openApiDoc));
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/profile', authenticate, profileRoutes);
 app.use('/api/v1/user', authenticate, userRoutes);
+
+app.use('/api/v1/settings', settingsRoutes);
 
 // Error handling
 app.use(notFound);

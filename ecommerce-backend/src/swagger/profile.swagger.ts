@@ -3,6 +3,8 @@ import { userProfileSchema } from '@/validators/profile.validator';
 import type { OpenAPIRegistry } from '@asteasolutions/zod-to-openapi';
 
 export const registerProfileSchemas = (registry: OpenAPIRegistry) => {
+  registry.register('ProfileRequest', userProfileSchema);
+
   registry.registerPath({
     method: 'get',
     path: '/profile',

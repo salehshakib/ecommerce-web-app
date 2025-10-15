@@ -1,6 +1,6 @@
 import { type Request, type Response } from 'express';
 
-import { UserService } from '@/services/user/user.service';
+import { UserService } from '@/services/user.service';
 
 import { UnauthorizedError } from '@/utils/api-error';
 import { asyncHandler } from '@/utils/async-handler';
