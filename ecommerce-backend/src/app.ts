@@ -35,7 +35,8 @@ app.get('/health', (req, res) => {
   });
 });
 
-app.use('/api/v1/docs', swaggerUi.serve, swaggerUi.setup(openApiDoc));
+app.use('/api/v1/docs', swaggerUi.serve);
+app.get('/api/v1/docs', swaggerUi.setup(openApiDoc));
 // API Routes
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/profile', authenticate, profileRoutes);
