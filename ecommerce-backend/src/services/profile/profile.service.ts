@@ -1,7 +1,7 @@
 import { NotFoundError } from '@/utils/api-error';
 
 import { AuthResponse } from '@/types/auth.type';
-import type { IUser } from '@/models/user.model';
+import { IUser } from '@/types/user.type';
 import type { UserRepository } from '@/repositories/user.repository';
 
 export class ProfileService {
